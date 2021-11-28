@@ -2,24 +2,23 @@ import React, { useState } from "react";
 
 // propsは親から子にデータを渡す時に使用するもの
 const App = props => {
-  const [name, setName] = useState(props.name);
-  const [price, setPrice] = useState(props.price);
+  const [state, setState] = useState(props);
+  // 分割代入でstateの中身を代入しておくことでname, priceだけで値を使用できる
+  const {name, price} = state;
 
-  const reset = () => {
-    setPrice(props.price)
-    setName(props.name)
-  }
+  // Resetのボタンの中身を外に出すと以下の記述になる
+  // const reset = () => setState(props)
   
   return (
     <>
       <div>現在の{name}は、{price}円です</div>
-      {/* アロー関数にしないと無限ループになる  setPriceをそのまま呼び出すとrender => setState => render => setStateとなるから */}
-      <button onClick={() => setPrice(price + 1)}>+1</button>
-      <button onClick={() => setPrice(price - 1)}>-1</button>
-      <button onClick={reset}>Reset</button>
+      {/* スプレット構文  ...stateで一度展開してから変更したい値を指定する */}
+      <button onClick={() => setState({...state, price: price + 1})}>+1</button>
+      <button onClick={() => setState({...state, price: price - 1})}>-1</button>
+      <button onClick={() => setState(props)}>Reset</button>
       <br/>
       <br/>
-      <input value={name} onChange={e => setName(e.target.value)} />
+      <input value={name} onChange={e => setState({...state, name: e.target.value})} /> {/* 変更されるものを後に書く */}
     </>
   )
 }
