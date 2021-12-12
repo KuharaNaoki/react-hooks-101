@@ -8,14 +8,22 @@ const App = () => {
   const [body, setBody] = useState('')
 
   const addEvent = e => {
+    // 「preventDefault」はイベントのデフォルトの動作を妨げている
+    // フォームが持つデフォルトの動作とは、フォームの内容を指定したURLへ送信するという動作です。
     e.preventDefault()
-    // dispatch(action)
-    // action = {
-    // type属性が必ず必要
-    //    type: 'CREATE_EVENT',
-    //    title,
-    //    body
-    // }
+
+    dispatch({
+      // type属性が必ず必要
+      type: 'CREATE_EVENT',
+      title,
+      body
+    })
+    // イベント一覧の状態を管理している
+    // 0: {id: 1, title: 't', body: 'b'}
+    // 1: {id: 2, title: '', body: ''}
+    console.log({state})
+    setTitle('');
+    setBody('');
   }
 
   return (
@@ -24,12 +32,13 @@ const App = () => {
       <form>
         <div className="form-group">
           <label htmlFor="formEventTitle">タイトル</label>
-          <input className="form-control" id="formEventTitle" />
+          {/* 「e.target.value」は慣用句    setStateやsetTitleの関数を呼び出してtitleなどの状態を変更していく */}
+          <input className="form-control" id="formEventTitle" value={title} onChange={e => setTitle(e.target.value)}/>
         </div>
 
         <div className="form-group">
           <label htmlFor="formEventBody">ボディー</label>
-          <textarea className="form-control" id="formEventBody" />
+          <textarea className="form-control" id="formEventBody" value={body} onChange={e => setBody(e.target.value)}/>
         </div>
 
         <button className="btn btn-primary mr-3" onClick={addEvent}>イベントを作成する</button>
