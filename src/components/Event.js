@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import { DELETE_EVENT } from '../actions'
 
 const Event = ({ event, dispatch }) => {
   // const id = event.idと記述することで、dispatchの中にはidと記述するだけで良くなる
@@ -7,7 +8,7 @@ const Event = ({ event, dispatch }) => {
     e.preventDefault();
     console.log("delete");
     const result = window.confirm(`Do you want to this data(id=${id})?`);
-    if (result) dispatch({ type: "DELETE_EVENT", id });
+    if (result) dispatch({ type: DELETE_EVENT, id });
   };
   return (
     <tr>
