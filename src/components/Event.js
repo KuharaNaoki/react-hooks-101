@@ -1,5 +1,5 @@
-import React from 'react';
-import { DELETE_EVENT } from '../actions'
+import React from "react";
+import { DELETE_EVENT } from "../actions";
 
 const Event = ({ event, dispatch }) => {
   // const id = event.idと記述することで、dispatchの中にはidと記述するだけで良くなる
