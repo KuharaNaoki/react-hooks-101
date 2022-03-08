@@ -1,6 +1,12 @@
 import React, { useContext, useState } from "react";
-import { CREATE_EVENT, DELETE_ALL_EVENTS } from "../actions";
+import {
+  CREATE_EVENT,
+  DELETE_ALL_EVENTS,
+  ADD_OPERATION_LOG,
+  DELETE_ALL_OPERATION_LOGS,
+} from "../actions";
 import AppContext from "../contexts/AppContext";
+import { timeCurrentIso8601 } from "../utils";
 
 const EventForm = () => {
   const { state, dispatch } = useContext(AppContext);
@@ -18,6 +24,13 @@ const EventForm = () => {
       title,
       body,
     });
+
+    dispatch({
+      type: ADD_OPERATION_LOG,
+      description: "イベントを作成しました",
+      operationAt: timeCurrentIso8601(),
+    });
+
     // stateはイベント一覧の状態を管理している
     // 0: {id: 1, title: 't', body: 'b'}
     // 1: {id: 2, title: '', body: ''}
@@ -29,7 +42,14 @@ const EventForm = () => {
   const deleteAllEvents = (e) => {
     e.preventDefault();
     const result = window.confirm("Do you want to delete all data?");
-    if (result) dispatch({ type: DELETE_ALL_EVENTS });
+    if (result) {
+      dispatch({ type: DELETE_ALL_EVENTS });
+      dispatch({
+        type: ADD_OPERATION_LOG,
+        description: "全てのイベントを削除しました",
+        operationAt: timeCurrentIso8601(),
+      });
+    }
   };
 
   const unCreatable = title === "" || body === "";
