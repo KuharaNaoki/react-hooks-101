@@ -41,13 +41,25 @@ const EventForm = () => {
 
   const deleteAllEvents = (e) => {
     e.preventDefault();
-    const result = window.confirm("Do you want to delete all data?");
+    const result = window.confirm("全てのイベントを削除してもいいですか？");
     if (result) {
       dispatch({ type: DELETE_ALL_EVENTS });
       dispatch({
         type: ADD_OPERATION_LOG,
         description: "全てのイベントを削除しました",
         operationAt: timeCurrentIso8601(),
+      });
+    }
+  };
+
+  const deleteAllOperationLogs = (e) => {
+    e.preventDefault();
+
+    const result = window.confirm("全てのイベントを削除してもいいですか？");
+
+    if (result) {
+      dispatch({
+        type: DELETE_ALL_OPERATION_LOGS,
       });
     }
   };
@@ -91,7 +103,11 @@ const EventForm = () => {
         >
           全てのイベントを削除する
         </button>
-        <button className="btn btn-danger mr-3">
+        <button
+          className="btn btn-danger mr-3"
+          onClick={deleteAllOperationLogs}
+          disabled={state.operationLogs.length === 0}
+        >
           全ての操作ログを削除する
         </button>
       </form>
