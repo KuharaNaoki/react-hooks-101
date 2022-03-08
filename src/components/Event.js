@@ -5,12 +5,14 @@ import AppContext from "../contexts/AppContext";
 const Event = ({ event }) => {
   const { dispatch } = useContext(AppContext);
   const id = event.id;
+
   const handleClickDeleteButton = (e) => {
     e.preventDefault();
     console.log("delete");
     const result = window.confirm(`Do you want to this data(id=${id})?`);
     if (result) dispatch({ type: DELETE_EVENT, id });
   };
+
   return (
     <tr>
       <td>{id}</td>
